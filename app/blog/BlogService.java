@@ -2,16 +2,11 @@ package blog;
 
 import global.exceptions.CustomException;
 import global.utils.Helper;
-import org.bson.types.ObjectId;
-import sam.BlogRequestForm;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.List;
-import java.util.Optional;
 import java.lang.String;
-
-import static global.utils.Helper.*;
 
 
 @Singleton
@@ -31,20 +26,17 @@ public class BlogService {
         newUser.setBlogdescription(userForm.getBlogdescription());
         newUser.setLike(userForm.getLike());
         newUser.setComment(userForm.getComment());
-
-
+        newUser.setCreatedAt(Helper.currentEpoch());
+        System.out.print("time " + Helper.currentEpoch( ));
         return repository.createUser(newUser);
     }
 
-    public BlogModel getUser(String name) {
-        return repository.getUserByUserid(name);
+    public BlogModel blogpost(String name) {
+        return repository.usercheck(name);
     }
-
-
-
     public BlogModel updateblog(BlogRequestForm newform) {
 
-         BlogModel user = repository.getUser11(newform.getUserid());
+         BlogModel user = repository.usercheck(newform.getUserid());
 
         if (user == null) {
             throw new CustomException("No user exists for given user ID");
@@ -95,18 +87,16 @@ public class BlogService {
 
     }
 
-    public List<BlogModel> viewCommentsByserIds(String postedIds) {
-        System.out.print(" size  " +repository.viewCommentsByserIds(postedIds).size());
-        return repository.viewCommentsByserIds(postedIds);
+    public List<BlogModel> viewCommentsByUserIds(String postedIds) {
+        System.out.print(" size  " +repository.viewCommentsByUserIds(postedIds).size());
+        return repository.viewCommentsByUserIds(postedIds);
     }
     public BlogModel deleteblog(BlogRequestForm newform) {
 
-        final BlogModel user = repository.getUserByUserid(newform.getUserid());
+        final BlogModel user = repository.usercheck(newform.getUserid());
         if (user == null) {
             throw new CustomException("No user exists for given user ID");
         }
-
-
         repository.deleteUser(user);
 
         return user;

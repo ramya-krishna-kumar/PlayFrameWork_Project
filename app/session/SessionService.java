@@ -4,8 +4,7 @@ import global.exceptions.CustomException;
 import global.utils.Helper;
 import org.bson.types.ObjectId;
 import play.Logger;
-import sam.SamModel;
-import sam.SamRequestForm;
+import loginprocess.LoginProcessRequestForm;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -39,7 +38,7 @@ public class SessionService {
         return UUID.randomUUID().toString();
     }
 
-    public boolean assignSessionToUser(ObjectId userId, String session, SamRequestForm loginParam) {
+    public boolean assignSessionToUser(ObjectId userId, String session, LoginProcessRequestForm loginParam) {
         try {
             final SessionModel sessionModel = new SessionModel();
 

@@ -9,16 +9,13 @@ import global.exceptions.CustomException;
 import play.data.Form;
 import play.mvc.BodyParser;
 import play.mvc.Result;
-import sam.BlogRequestForm;
-import user.UserModel;
-import user.UserRequestForm;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.List;
 
 @Singleton
-public final class BlogController extends BaseController/**basecontroller--nothing but the controller class to the mvc models */
+public final class BlogController extends BaseController /**basecontroller--nothing but the controller class to the mvc models */
 {
 
     private final BlogService blogservice;
@@ -31,7 +28,7 @@ public final class BlogController extends BaseController/**basecontroller--nothi
 
     @BodyParser.Of(BodyParser.Json.class)
 
-    public Result postblog() {
+    public Result postBlog() {
         if (isSessionValid()) {
             try {
                 final Form<BlogRequestForm> blogModelForm = formFactory.form(BlogRequestForm.class).bindFromRequest();
@@ -39,13 +36,13 @@ public final class BlogController extends BaseController/**basecontroller--nothi
                     return failure(buildValidationErrorMessage(blogModelForm.allErrors()));
                 }
                 final BlogRequestForm blogForm = blogModelForm.get();
-                final BlogModel temp = this.blogservice.getUser(blogForm.getUserid());
-                if (temp != null) {
+                final BlogModel user = this.blogservice.blogpost(blogForm.getUserid());
+                if (user != null) {
 
-                    final BlogModel user = this.blogservice.postblog(blogForm);
-                    return user != null ? success("successfully posted your blog " + blogForm.getUserid()) : failure("no blog has been posted");
+                    final BlogModel userblog = this.blogservice.postblog(blogForm);
+                    return user != null ? success("successfully posted your blog " + blogForm.getUserid()) : failure("blog has not been posted");
                 } else {
-                    return failure("first signup and then post your blog");
+                    return failure("you are not our existing user..Kindly signup and then post your blog");
                 }
 
 
@@ -59,14 +56,12 @@ public final class BlogController extends BaseController/**basecontroller--nothi
 
     }
 
-    public Result updateblog() {
+    public Result updateBlog() {
         if(isSessionValid())
         {
         try {
-            final Form<BlogRequestForm> ins = formFactory.form(BlogRequestForm.class).bindFromRequest();
-
-
-            final BlogRequestForm newform = ins.get();
+            final Form<BlogRequestForm> blogmodelform = formFactory.form(BlogRequestForm.class).bindFromRequest();
+            final BlogRequestForm newform = blogmodelform.get();
             final BlogModel user = this.blogservice.updateblog(newform);
             return user != null ? success("successfully updated user") : failure("failed to update user");
         } catch (CustomException e) {
@@ -79,15 +74,15 @@ public final class BlogController extends BaseController/**basecontroller--nothi
     }
 
 
-    public Result deleteblog() {
+    public Result deleteBlog() {
         if(isSessionValid())
         {
         try {
-            final Form<BlogRequestForm> ins = formFactory.form(BlogRequestForm.class).bindFromRequest();
+            final Form<BlogRequestForm> blogmodel = formFactory.form(BlogRequestForm.class).bindFromRequest();
 
 
 
-        final BlogRequestForm newform = ins.get();
+        final BlogRequestForm newform = blogmodel.get();
         final BlogModel user = this.blogservice.deleteblog(newform);
         return user != null ? success("successfully deleted user") : failure("failed to delete user");
     } catch (CustomException e) {
@@ -98,20 +93,12 @@ else
             return failure("the session expires");
         }
 }
-
-
-
-
-
-
-
-
-    public Result getlike(String email, String blogname) {
+    public Result getLike(String email, String blogname) {
         if(isSessionValid())
         {
         try {
-            BlogModel temp1 = blogservice.getlike(email, blogname);
-            return temp1 != null ? success("liked") : failure("not liked");
+            BlogModel user = blogservice.getlike(email, blogname);
+            return user != null ? success("liked") : failure("not liked");
 
         } catch (CustomException e) {
             return failure(e.getMessage());
@@ -146,20 +133,17 @@ else
 
 
 
-    public Result postcomments() {
+    public Result postComments() {
         if(isSessionValid())
         {
         try {
-//testing
+
             final Form<BlogRequestForm> userForm = formFactory.form(BlogRequestForm.class).bindFromRequest();
 
             final BlogRequestForm useForm = userForm.get();
-            final BlogModel temp = this.blogservice.postcomments(useForm);
+            final BlogModel user = this.blogservice.postcomments(useForm);
 
-            //testing
-
-           // BlogModel temp=blogservice.postcomments(email, blogname);
-            return temp!= null ? success("posted") : failure("not posted");
+            return user!= null ? success("posted") : failure("not posted");
 
         } catch (CustomException e) {
             return failure(e.getMessage());
@@ -170,9 +154,9 @@ else
         }
 
     }
-    public Result latestposted() {
+    public Result latestPosted() {
         try {
-            List<BlogModel> temp2 = blogservice.latestposted();
+            List<BlogModel> user = blogservice.latestposted();
             return success("success",blogservice.latestposted());
 
         } catch (CustomException e) {
@@ -182,10 +166,10 @@ else
 
 
 
-    public Result viewCommentsByserIds(String userIds) {
+    public Result viewCommentsByUserIds(String userIds) {
 
         try {
-            List<BlogModel> comments = blogservice.viewCommentsByserIds(userIds);
+            List<BlogModel> comments = blogservice.viewCommentsByUserIds(userIds);
             System.out.print("Testing   ");
             ObjectMapper mapper1 = new ObjectMapper();
             JsonNode childNode1;

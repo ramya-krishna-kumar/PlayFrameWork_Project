@@ -1,4 +1,4 @@
-package blog;
+package loginprocess;
 
 import global.common.BaseModel;
 import lombok.Getter;
@@ -10,18 +10,15 @@ import org.mongodb.morphia.annotations.Entity;
 @Getter
 @Setter
 /** lombok automatically generates get and set for setting and getting a value defaultly*/
-public class BlogModel extends BaseModel {
+public class LoginProcessModel extends BaseModel {
 
-    //for signup and signin
-    private String userid,username;
+   //for signup and signin
+    private String userid, password,username;
     //for posting a blog
-    private  String blogname,blogdescription,comment;
-
-
-    private int like;
-    long epoch = System.currentTimeMillis()/1000;
 
 
 
-    public enum Fields {userid, username,blogname,blogdescription,comment,like}
+
+
+    public enum Fields {userid, password,username}
 }

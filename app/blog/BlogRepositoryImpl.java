@@ -1,16 +1,14 @@
 package blog;
 
-import global.common.BaseModel;
 import global.common.BaseRepository;
 import global.configuration.db.mongodb.MongoDBConnection;
-import org.bson.types.ObjectId;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.List;
-import sam.SamModel;
+
+import loginprocess.LoginProcessModel;
 
 
 @Singleton
@@ -31,22 +29,17 @@ public class BlogRepositoryImpl extends BaseRepository<BlogModel> implements Blo
 
     }
 
-    public BlogModel getUserByUserid(final String name) {
+    public BlogModel usercheck(final String name) {
         return query()
-                .field(SamModel.Fields.userid.name())
-                .equal(name)
-                .get();
-    }
-    public BlogModel getUser11(final String name) {
-        return query()
-                .field(SamModel.Fields.userid.name())
+                .field(LoginProcessModel.Fields.userid.name())
                 .equal(name)
                 .get();
     }
 
+
     public BlogModel getlike(String email,String blogname) {
         return query()
-                .field(SamModel.Fields.userid.name())
+                .field(LoginProcessModel.Fields.userid.name())
                 .equal(email)
                 .field(BlogModel.Fields.blogname.name())
                 .equal(blogname)
@@ -81,11 +74,11 @@ public class BlogRepositoryImpl extends BaseRepository<BlogModel> implements Blo
     public List<BlogModel> latestposted()
     {
 
-        return query().order("-CreatedAt").asList();
+        return query().order("-createdAt").asList();
     }
 
     @Override
-    public List<BlogModel> viewCommentsByserIds(String s1) {
+    public List<BlogModel> viewCommentsByUserIds(String s1) {
         List<String> userIdArray = Arrays.asList(s1.split(","));
         return  query().field(BlogModel.Fields.userid.name())
                 .in(userIdArray)

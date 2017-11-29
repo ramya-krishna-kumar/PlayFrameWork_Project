@@ -1,8 +1,7 @@
-package sam;
+package blog;
 
 import lombok.Getter;
 import lombok.Setter;
-import play.data.validation.Constraints;
 
 @Getter
 @Setter

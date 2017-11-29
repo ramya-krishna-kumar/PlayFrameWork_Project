@@ -2,9 +2,8 @@ import com.google.inject.AbstractModule;
 import global.configuration.db.mongodb.MongoDBConnection;
 import user.UserRepository;
 import user.UserRepositoryImpl;
-import sam.SamRepository;
-import sam.SamRepositoryImpl;
-import user.UserService;
+import loginprocess.LoginProcessRepository;
+import loginprocess.LoginProcessRepositoryImpl;
 import blog.BlogRepository;
 import blog.BlogRepositoryImpl;
 
@@ -24,7 +23,7 @@ public class Module extends AbstractModule {
     public void configure() {
         bind(MongoDBConnection.class).asEagerSingleton();
         bind(UserRepository.class).to(UserRepositoryImpl.class);
-        bind(SamRepository.class).to(SamRepositoryImpl.class);
+        bind(LoginProcessRepository.class).to(LoginProcessRepositoryImpl.class);
         bind(BlogRepository.class).to(BlogRepositoryImpl.class);
     }
 
