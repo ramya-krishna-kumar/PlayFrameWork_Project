@@ -1,0 +1,12 @@
+GET     /likes                                           blog.BlogController.maximumLikes()
+GET     /latestposted                                    blog.BlogController.latestposted()
+GET     /abc/:userIds                                    blog.BlogController.viewCommentsByserIds(userIds:String)
+GET     /getlikes/:email/:blogname                       blog.BlogController.getlike(email : String,blogname : String)
+
+POST    /                                                sam.SamController.createUser()
+POST    /signin                                          sam.SamController.signinUser()
+POST    /postblog                                        blog.BlogController.postblog()
+POST    /postcomments                                    blog.BlogController.postcomments()
+PUT     /updateblog                                      blog.BlogController.updateblog()
+GET     /logout/:authToken                               sam.SamController.logoutUser(authToken : String)
+DELETE  /deleteblog                                      blog.BlogController.deleteblog()
