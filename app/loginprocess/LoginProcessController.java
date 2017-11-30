@@ -38,12 +38,12 @@ public final class LoginProcessController extends BaseController/**basecontrolle
                 return failure(buildValidationErrorMessage(samModelForm.allErrors()));
             }
             final LoginProcessRequestForm samForm = samModelForm.get();
-            final LoginProcessModel temp = this.samservice.getUser(samForm.getUserid());
-            if (temp != null) {
+            final LoginProcessModel user = this.samservice.getUser(samForm.getUserid());
+            if (user != null) {
                 return success("user already exists" + samForm.getUserid());
             } else {
-                final LoginProcessModel user = this.samservice.createUser(samForm);
-                return user != null ? success("successfully created user with ID: " + samForm.getUserid()) : failure("user already exists");
+                final LoginProcessModel usercheck = this.samservice.createUser(samForm);
+                return usercheck != null ? success("successfully created user with ID: " + samForm.getUserid()) : failure("user already exists");
             }
         } catch (CustomException e) {
             return failure(e.getMessage());
