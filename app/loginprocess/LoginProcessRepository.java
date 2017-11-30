@@ -11,7 +11,6 @@ public interface LoginProcessRepository {
 
 
    LoginProcessModel getUser(String email);
-  /* LoginProcessModel getLikefield();
-   void deleteUser(final LoginProcessModel user);*/
+
 
 }

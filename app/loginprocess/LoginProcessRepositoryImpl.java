@@ -16,57 +16,6 @@ public class LoginProcessRepositoryImpl extends BaseRepository<LoginProcessModel
     }
 
 
- /* *//*  @Override
-    public LoginProcessModel getUserByuserid(final String userid) {
-        return query()
-                .field(LoginProcessModel.Fields.userid.name())
-                .equal(userid)
-                .get();
-    }
-
-   @Override
-    public LoginProcessModel getUserBypassword(final String password) {
-        return query()
-                .field(LoginProcessModel.Fields.password.name())
-                .equal(password)
-                .get();
-    }
-
-
-
-    @Override
-    public boolean deleteUser(ObjectId userId) {
-        return delete(userId);
-    }
-
-    @Override
-    public void updateUser(LoginProcessModel user) {
-        update(user);
-    }
-
-    @Override
-    public LoginProcessModel getUser(String userid, String password) {
-        return query()
-                .field(LoginProcessModel.Fields.userid.name())
-                .equal(userid)
-                .field(LoginProcessModel.Fields.password.name())
-                .equal(password)
-                .get();
-    }*//*
-     @Override
-    public boolean signupUser(String userid) {
-        if(
-                query()
-                .field(LoginProcessModel.Fields.userid.name())
-                .equals(userid))
-            return true;
-        else
-            return false;
-
-
-    }
-
-*/
 
 
     @Override
@@ -104,28 +53,5 @@ public class LoginProcessRepositoryImpl extends BaseRepository<LoginProcessModel
 
     }
 
-   /* public LoginProcessModel getLikefield() {
-        return query()
-                .field(LoginProcessModel.Fields.like.name())
-                .greaterThanOrEq(0)
-                .get();//like:0 update/like:1
-    }
 
-*/
-
-
-
-
-  /*  @Override
-    public void updateUser(LoginProcessModel user) {
-        update(user);
-    }
-
-
-    @Override
-    public void deleteUser(LoginProcessModel user) {
-        delete(user);
-    }
-
-}*/
 }

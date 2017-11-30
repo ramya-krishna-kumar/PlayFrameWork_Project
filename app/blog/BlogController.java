@@ -15,7 +15,7 @@ import javax.inject.Singleton;
 import java.util.List;
 
 @Singleton
-public final class BlogController extends BaseController /**basecontroller--nothing but the controller class to the mvc models */
+public final class BlogController extends BaseController
 {
 
     private final BlogService blogservice;
@@ -42,7 +42,7 @@ public final class BlogController extends BaseController /**basecontroller--noth
                     final BlogModel userblog = this.blogservice.postblog(blogForm);
                     return user != null ? success("successfully posted your blog " + blogForm.getUserid()) : failure("blog has not been posted");
                 } else {
-                    return failure("you are not our existing user..Kindly signup and then post your blog");
+                    return failure("you are not our existing user.Kindly signup and then post your blog");
                 }
 
 
@@ -79,10 +79,7 @@ public final class BlogController extends BaseController /**basecontroller--noth
         {
         try {
             final Form<BlogRequestForm> blogmodel = formFactory.form(BlogRequestForm.class).bindFromRequest();
-
-
-
-        final BlogRequestForm newform = blogmodel.get();
+            final BlogRequestForm newform = blogmodel.get();
         final BlogModel user = this.blogservice.deleteblog(newform);
         return user != null ? success("successfully deleted user") : failure("failed to delete user");
     } catch (CustomException e) {
@@ -108,8 +105,6 @@ else
             return failure("the session expires");
         }
     }
-
-
     public Result maximumLikes()
 
     {
@@ -127,12 +122,6 @@ else
           return failure("the session expires");
       }
     }
-
-
-
-
-
-
     public Result postComments() {
         if(isSessionValid())
         {
