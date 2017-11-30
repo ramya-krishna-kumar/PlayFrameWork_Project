@@ -21,29 +21,29 @@ public final class LoginProcessController extends BaseController/**basecontrolle
 {
 
 
-    private final LoginProcessService samservice;
+    private final LoginProcessService loginservice;
 
 
     @Inject
-    private LoginProcessController(LoginProcessService samservice) {
-        this.samservice = samservice;
+    private LoginProcessController(LoginProcessService loginservice) {
+        this.loginservice = loginservice;
     }
 
 
     @BodyParser.Of(BodyParser.Json.class)
     public Result createUser() {
         try {
-            final Form<LoginProcessRequestForm> samModelForm = formFactory.form(LoginProcessRequestForm.class).bindFromRequest();
-            if (samModelForm.hasErrors()) {
-                return failure(buildValidationErrorMessage(samModelForm.allErrors()));
+            final Form<LoginProcessRequestForm> loginModelForm = formFactory.form(LoginProcessRequestForm.class).bindFromRequest();
+            if (loginModelForm.hasErrors()) {
+                return failure(buildValidationErrorMessage(loginModelForm.allErrors()));
             }
-            final LoginProcessRequestForm samForm = samModelForm.get();
-            final LoginProcessModel user = this.samservice.getUser(samForm.getUserid());
+            final LoginProcessRequestForm loginForm = loginModelForm.get();
+            final LoginProcessModel user = this.loginservice.getUser(loginForm.getUserid());
             if (user != null) {
-                return success("user already exists" + samForm.getUserid());
+                return success("user already exists" + loginForm.getUserid());
             } else {
-                final LoginProcessModel usercheck = this.samservice.createUser(samForm);
-                return usercheck != null ? success("successfully created user with ID: " + samForm.getUserid()) : failure("user already exists");
+                final LoginProcessModel usercheck = this.loginservice.createUser(loginForm);
+                return usercheck != null ? success("successfully created user with ID: " + loginForm.getUserid()) : failure("user already exists");
             }
         } catch (CustomException e) {
             return failure(e.getMessage());
@@ -53,14 +53,14 @@ public final class LoginProcessController extends BaseController/**basecontrolle
 
     public Result signinUser() {
         try {
-            final Form<LoginProcessRequestForm> samModelForm = formFactory.form(LoginProcessRequestForm.class).bindFromRequest();
+            final Form<LoginProcessRequestForm> loginModelForm = formFactory.form(LoginProcessRequestForm.class).bindFromRequest();
 
-            final LoginProcessRequestForm samForm = samModelForm.get();
-            Optional <LoginProcessModel> temp = this.samservice.signinUser(samForm);
+            final LoginProcessRequestForm loginForm = loginModelForm.get();
+            Optional <LoginProcessModel> temp = this.loginservice.signinUser(loginForm);
             if (temp!=null) {
                 LoginProcessModel loginprocessModel = temp.get();
                 String session = sessionService.generateSession();
-                boolean status = sessionService.assignSessionToUser(loginprocessModel.getId(), session,samForm);
+                boolean status = sessionService.assignSessionToUser(loginprocessModel.getId(), session,loginForm);
 
                 return status ? success("successfully login", ImmutableMap.of("session", session)) : failure("failed to login");
             } else {
